@@ -53,6 +53,7 @@
   <img src="./photo.png">
   <figcaption>图 1 运行界面</figcaption>
 </figure>
+
 ## 二、关键模块与技术特点
 
 ### 2.1 主控调度模块
