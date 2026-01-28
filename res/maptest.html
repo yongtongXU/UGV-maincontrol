@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>高德地图</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script type="text/javascript"
+            src="http://webapi.amap.com/maps?v=1.4.8&key=84c4a70d448e600824c4937eb85a4a8b&plugin=AMap.Autocomplete,AMap.PlaceSearch"></script>
+    <script type="text/javascript" src="http://cache.amap.com/lbs/static/addToolbar.js"></script>
+
+    <script type="text/javascript">
+        window.onload = function () {
+
+            //定义初始经纬度
+            var mylgt = "120.185954";
+            var mylat = "30.11235";
+
+            //地图加载
+            var map = new AMap.Map("container", {
+                zoom: 15,    //地图缩放级别
+                resizeEnable: true,
+                center: [mylgt, mylat]
+            });
+
+            //定义一个标记
+            var marker = new AMap.Marker({
+                icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                position: [mylgt, mylat]
+            });
+
+            //添加标记
+            marker.setMap(map);
+
+            //为地图注册click事件获取鼠标点击出的经纬度坐标
+            var clickEventListener = map.on('click', function (e) {
+                document.getElementById("lnglat").value = e.lnglat.getLng() + ',' + e.lnglat.getLat();
+
+                //清空标记
+                if (marker) {
+                    marker.setMap(null);
+                    marker = null;
+                }
+
+                //重设标记
+                marker = new AMap.Marker({
+                    icon: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+                    position: [e.lnglat.getLng(), e.lnglat.getLat()]
+                });
+                marker.setMap(map);
+            });
+
+            //输入地点提示
+            var auto = new AMap.Autocomplete({
+                input: "tipinput"
+            });
+
+            //构造地点查询类
+            var placeSearch = new AMap.PlaceSearch({
+                map: map
+            });
+
+            //注册监听，当选中某条记录时会触发
+            AMap.event.addListener(auto, "select", select);
+
+            function select(e) {
+                placeSearch.setCity(e.poi.adcode);
+                placeSearch.search(e.poi.name);  //关键字查询查询
+            }
+        }
+    </script>
+</head>
+<body>
+<div id="container"></div>
+<div id="myPageTop">
+    <table>
+        <tr>
+            <td>
+                <label>按关键字搜索：</label>
+            </td>
+            <td>
+                <label>左击获取经纬度：</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" placeholder="请输入关键字进行搜索" id="tipinput">
+            </td>
+            <td>
+                <input type="text" readonly="true" id="lnglat">
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
