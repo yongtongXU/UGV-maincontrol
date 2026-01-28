@@ -51,7 +51,7 @@
 需要说明的是，该界面截图仅用于说明软件运行形态，不对具体功能细节和界面布局作限定，实际运行过程中界面内容可根据应用场景和配置情况进行调整。
 <figure align="center">
   <img src="./photo.png">
-  <figcaption>图 1 运行界面</figcaption>
+  <figcaption style="text-align: center;">图 1 运行界面</figcaption>
 </figure>
 
 ## 二、关键模块与技术特点
